@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/color-widgets-icon">
+        <file>resource/NoneColor.svg</file>
+    </qresource>
+</RCC>

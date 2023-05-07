@@ -206,7 +206,7 @@ QPixmap SAColorToolButton::PrivateData::createIconPixmap(const QStyleOptionToolB
         mode = QIcon::Normal;
     }
     // return (opt.icon.pixmap(this->window()->windowHandle(), opt.rect.size().boundedTo(realConSize), mode, state));
-    return (opt.icon.pixmap(q_ptr->window()->windowHandle(), iconRect.size(), mode, state));
+    return (opt.icon.pixmap(iconRect.size(), mode, state));
 }
 
 /**
@@ -310,6 +310,26 @@ void SAColorToolButton::setMargins(const QMargins& mg)
 QMargins SAColorToolButton::getMargins() const
 {
     return d_ptr->mMargins;
+}
+
+/**
+ * @brief 绘制无颜色表示
+ * @param p
+ * @param colorRect 绘制的区域
+ */
+void SAColorToolButton::paintNoneColor(QPainter* p, const QRect& colorRect)
+{
+    p->save();
+    QPen pen(Qt::red, 1, Qt::SolidLine, Qt::RoundCap);
+    p->setPen(pen);
+    p->setRenderHint(QPainter::SmoothPixmapTransform, true);
+    p->setRenderHint(QPainter::Antialiasing, true);
+    int ss = colorRect.width() / 3;
+    p->drawLine(QPoint(colorRect.x() + ss, colorRect.bottom()), QPoint(colorRect.right() - ss, colorRect.top()));
+    pen.setColor(Qt::black);
+    p->setPen(pen);
+    p->drawRect(colorRect);
+    p->restore();
 }
 
 /**
@@ -419,7 +439,8 @@ QSize SAColorToolButton::sizeHint() const
     if (opt.features & QStyleOptionToolButton::MenuButtonPopup || opt.features & QStyleOptionToolButton::HasMenu) {
         w += style()->pixelMetric(QStyle::PM_MenuButtonIndicator, &opt, this);
     }
-    return style()->sizeFromContents(QStyle::CT_ToolButton, &opt, QSize(w, h), this).expandedTo(QApplication::globalStrut());
+    //! Qt6.4 取消了QApplication::globalStrut
+    return style()->sizeFromContents(QStyle::CT_ToolButton, &opt, QSize(w, h), this).expandedTo(QSize(2, 2));
 }
 
 void SAColorToolButton::onButtonClicked(bool checked)
@@ -518,8 +539,13 @@ void SAColorToolButton::paintText(QStylePainter* p, const QRect& textRect, const
 void SAColorToolButton::paintColor(QStylePainter* p, const QRect& colorRect, const QColor& color, const QStyleOptionToolButton& opt)
 {
     Q_UNUSED(opt);
-    if (!colorRect.isNull()) {
-        //绘制颜色
+    if (colorRect.isNull()) {
+        return;
+    }
+    //绘制颜色
+    if (color.isValid()) {
         p->fillRect(colorRect, color);
+    } else {
+        paintNoneColor(p, colorRect);
     }
 }

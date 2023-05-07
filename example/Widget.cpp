@@ -14,6 +14,7 @@ Widget::Widget(QWidget* parent) : QWidget(parent), ui(new Ui::Widget)
     setColor(Qt::blue);
 
     SAColorMenu* menu = new SAColorMenu(this);
+    menu->enableNoneColorAction(true);
     menu->bindToColorToolButton(ui->toolButtonIconOnlyHaveIconMenuPopupMode);
     menu->bindToColorToolButton(ui->toolButtonIconOnlyHaveIconMenuPopupMode2);
     menu->bindToColorToolButton(ui->toolButtonIconOnlyHaveIconInstantPop);
@@ -22,21 +23,27 @@ Widget::Widget(QWidget* parent) : QWidget(parent), ui(new Ui::Widget)
     menu->bindToColorToolButton(ui->toolButtonIconOnlyHaveIconDelayedPop2);
 
     menu = new SAColorMenu(this);
+    menu->enableNoneColorAction(true);
     menu->bindToColorToolButton(ui->toolButtonIconOnlyTextHaveIconMenuPopupMode);
 
     menu = new SAColorMenu(this);
+    menu->enableNoneColorAction(true);
     menu->bindToColorToolButton(ui->toolButtonIconOnlyTextHaveIconMenuPopupMode_1);
 
     menu = new SAColorMenu(this);
+    menu->enableNoneColorAction(true);
     menu->bindToColorToolButton(ui->toolButtonIconOnlyTextHaveIconDelayedPop);
 
     menu = new SAColorMenu(this);
+    menu->enableNoneColorAction(true);
     menu->bindToColorToolButton(ui->toolButtonIconOnlyTextHaveIconDelayedPop_1);
 
     menu = new SAColorMenu(this);
+    menu->enableNoneColorAction(true);
     menu->bindToColorToolButton(ui->toolButtonIconOnlyTextHaveIconInstantPop);
 
     menu = new SAColorMenu(this);
+    menu->enableNoneColorAction(true);
     menu->bindToColorToolButton(ui->toolButtonIconOnlyTextHaveIconInstantPop_1);
 
     //

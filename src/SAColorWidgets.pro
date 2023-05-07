@@ -15,4 +15,7 @@ TEMPLATE = lib
 
 include(./SAColorWidgets.pri)
 
+RESOURCES += \
+    resource.qrc
+
 
